@@ -1,2 +1,4 @@
 /node_modules
 .env
+/models/File.js
+# File.js solo es por ejercicio de csv parser, borrar despues
