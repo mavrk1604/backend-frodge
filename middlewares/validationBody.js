@@ -5,4 +5,14 @@ const users = [
   body('password', 'Password must contain uppercase, lowercase, numbers and special characters').isStrongPassword()
 ]
 
-module.exports = users
+const products = [
+  body('name', 'El nombre del producto es requerido!').notEmpty(),
+  body('type', 'El tipo del producto es requerido!').notEmpty(),
+  body('description', 'La descripcion del producto es requerida!').notEmpty(),
+  body('price', 'El precio del producto es requerido!').notEmpty(),
+]
+
+module.exports = {
+  users,
+  products
+}
