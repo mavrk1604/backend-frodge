@@ -22,7 +22,7 @@ const createProduct = async (req, res) => {
     await dbProduct.save()
     return res.status(201).json({
       ok: true,
-      msg: `El producto "${product.name}" ha sido creado en base de datos!`
+      msg: `El producto "${dbProduct.name}" ha sido creado en base de datos!`
     })
   } catch (error) {
     console.log(error)
