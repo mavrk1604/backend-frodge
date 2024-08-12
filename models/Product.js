@@ -15,6 +15,10 @@ const productsSchema = Schema({
     required: true,
     unique: true
   },
+  information: {
+    type: String,
+    required: true,
+  },
   fridge: {
     type: Boolean,
     required: true

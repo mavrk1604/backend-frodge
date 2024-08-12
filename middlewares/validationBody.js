@@ -12,7 +12,16 @@ const products = [
   body('price', 'El precio del producto es requerido!').notEmpty(),
 ]
 
+const recipes = [
+  body('recipename', 'El nombre de la receta es requerido!').notEmpty(),
+  body('description', 'La descripcion de la receta es requerida!').notEmpty(),
+  body('ingredients', 'Los ingredientes de la receta son requeridos!').notEmpty(),
+  body('preparation', 'Las instrucciones de preparacion son requeridas!').notEmpty(),
+]
+
+
 module.exports = {
   users,
-  products
+  products,
+  recipes
 }
