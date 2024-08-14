@@ -11,7 +11,7 @@ const recetasSchema = Schema({
     required: true
   },
   ingredients: {
-    type: String,
+    type: Object,
     required: true,
     unique: true
   },
