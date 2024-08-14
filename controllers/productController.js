@@ -33,4 +33,29 @@ const createProduct = async (req, res) => {
   }
 }
 
-module.exports = createProduct
+const deleteProductById = async (req, res) => {
+  const id = req.params.id
+  try {
+    const product = await Product.findByIdAndDelete(id)
+    if (!product) return res.status(400).json({
+      ok: false,
+      msg: `no se encontró en la base de datos!`
+    })
+
+    return res.status(200).json({
+      ok: true,
+      msg: `ha sido eliminado!`
+    })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      ok: false,
+      msg: 'Error del servidor, por favor contactar a soporte.'
+    })
+  }
+}
+
+module.exports = {
+  createProduct, 
+  deleteProductById
+}

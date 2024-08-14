@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const createProduct = require('./../controllers/productController')
-const {products} = require('./../middlewares/validationBody')
+const {createProduct, deleteProductById} = require('./../controllers/productController')
 
-router.post('/create-product', products, createProduct)
+router.post('/create-product', createProduct)
+router.delete('/delete-product-by-id/:id', deleteProductById)
 
 module.exports = router

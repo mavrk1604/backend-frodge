@@ -17,7 +17,7 @@ const productsSchema = Schema({
   },
   information: {
     type: String,
-    required: true,
+    required: false,
   },
   fridge: {
     type: Boolean,
@@ -41,9 +41,9 @@ const productsSchema = Schema({
   },
   vegetarian: {
     type: Boolean,
-    required:true
+    required: true
   }
 
 })
-
-module.exports = model('Products', productsSchema)
+const Product = model('Products', productsSchema)
+module.exports = Product
