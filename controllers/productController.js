@@ -1,5 +1,7 @@
 const Product = require('./../models/Product')
 
+
+
 const createProduct = async (req, res) => {
   const { name, type, description, fridge, freeze, oven, stove, price, vegetarian } = req.body
   try {

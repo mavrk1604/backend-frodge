@@ -2,7 +2,7 @@ const { response } = require('express')
 const Recipe = require('./../models/Recipe')
 
 const createRecipe = async (req, res) => {
-  const { recipename, description, ingredients, preparation, category, region } = req.body
+  const { recipename, description, ingredients, allergens, preparation, category, region } = req.body
   try {
     const recipe = await Recipe.findOne({ recipename: recipename })
     if (recipe) return res.status(400).json({
@@ -13,6 +13,7 @@ const createRecipe = async (req, res) => {
       recipename: recipename,
       description: description,
       ingredients: ingredients,
+      allergens: allergens,
       preparation: preparation,
       category: category,
       region: region
@@ -73,4 +74,6 @@ const updateRecipeById = async (req, res) => {
   }
 }
 
-module.exports = {createRecipe, deleteRecipeById, updateRecipeById }
+
+
+module.exports = {createRecipe, deleteRecipeById, updateRecipeById}
