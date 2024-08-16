@@ -13,7 +13,10 @@ const recetasSchema = Schema({
   ingredients: {
     type: Object,
     required: true,
-    unique: true
+  },
+  allergens: {
+    type: Object,
+    required: true,
   },
   preparation: {
     type: String,
