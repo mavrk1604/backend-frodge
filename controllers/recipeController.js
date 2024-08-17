@@ -100,7 +100,12 @@ const findRecipes = async (req, res) => {
       
       // Verificamos que se hayan enviado ingredientes
       if (!ingredientes || !ingredientes.length) {
-          return res.status(400).json({ message: 'Se requiere un array de ingredientes.' });
+
+          return res.status(400).json({
+            ok: true,
+            message: 'Se requiere un array de ingredientes.' 
+          })
+
       }
 
       // Buscamos productos que contengan todos los ingredientes especificados
@@ -109,13 +114,21 @@ const findRecipes = async (req, res) => {
       });
 
       if (products.length === 0) {
-          return res.status(404).json({ message: 'No se encontraron productos con los ingredientes especificados.' });
+          return res.status(404).json({ 
+            ok: false, 
+            msg: 'No se encontraron productos con los ingredientes especificados.' 
+          });
       }
 
       return res.json(products);
   } catch (error) {
       console.error(error);
-      return res.status(500).json({ message: 'Error en el servidor.' });
+
+      return res.status(500).json({ 
+        ok: false,
+        message: 'Error en el servidor.' 
+      });
+
   }
 };
 
