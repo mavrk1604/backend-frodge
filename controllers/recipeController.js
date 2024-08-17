@@ -1,4 +1,3 @@
-const { response } = require('express')
 const Recipe = require('./../models/Recipe')
 
 const createRecipe = async (req, res) => {
@@ -21,7 +20,7 @@ const createRecipe = async (req, res) => {
     await dbRecipe.save()
     return res.status(201).json({
       ok: true,
-      msg: `La receta "${dbRecipe.recipename}" ha sido creada en la base de datos!`
+      msg: `La receta ${dbRecipe.recipename} ha sido creada en la base de datos`
     })
   } catch (error) {
     console.log(error)
@@ -74,6 +73,53 @@ const updateRecipeById = async (req, res) => {
   }
 }
 
+// const findRecipes = async(req, res) => {
+//   try {
+//     const names = req.body.names
+//     console.log(names)
+//     const recipes = await Recipe.find({ ingredients: { $in: names } })
+//     if(!recipes) {
+//       return res.status(400).json({
+//         ok: false,
+//         msg: 'No se encontraron recetas con estos productos'
+//       })
+//     }
+//     return res.status(200).json({
+//       ok: true,
+//       msg: "lkjasnfdlsadknfsdlknfldkfjldskvlsdkjnvkjsñdanflksndvkjsdfnsdjvnkjwavnjkacnsdlkjvnsdlkjcvndfkjnvdsñkj"
+//     })
+//   }
+//   catch(error){
+//     console.log(error)
+//   }
+// }
+
+const findRecipes = async (req, res) => {
+  try {
+      const { ingredientes } = req.body; // Array de ingredientes
+      
+      // Verificamos que se hayan enviado ingredientes
+      if (!ingredientes || !ingredientes.length) {
+          return res.status(400).json({ message: 'Se requiere un array de ingredientes.' });
+      }
+
+      // Buscamos productos que contengan todos los ingredientes especificados
+      const products = await Product.find({ 
+          ingredientes: { $all: ingredientes }
+      });
+
+      if (products.length === 0) {
+          return res.status(404).json({ message: 'No se encontraron productos con los ingredientes especificados.' });
+      }
+
+      return res.json(products);
+  } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Error en el servidor.' });
+  }
+};
 
 
-module.exports = {createRecipe, deleteRecipeById, updateRecipeById}
+
+
+module.exports = {createRecipe, deleteRecipeById, updateRecipeById, findRecipes }
