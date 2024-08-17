@@ -11,9 +11,12 @@ const recetasSchema = Schema({
     required: true
   },
   ingredients: {
-    type: String,
+    type: Array,
     required: true,
-    unique: true
+  },
+  allergens: {
+    type: Array,
+    required: true,
   },
   preparation: {
     type: String,
