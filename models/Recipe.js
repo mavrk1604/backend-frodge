@@ -1,12 +1,12 @@
 const { Schema, model } = require('mongoose')
 
-const recetasSchema = Schema({
-  recipename: {
+const recipesSchema = Schema({
+  name: {
     type: String,
     required: true,
     unique: true
   },
-  description: {
+  imageurl: {
     type: String,
     required: true
   },
@@ -16,7 +16,6 @@ const recetasSchema = Schema({
   },
   allergens: {
     type: Array,
-    required: true,
   },
   preparation: {
     type: String,
@@ -26,10 +25,9 @@ const recetasSchema = Schema({
     type: String,
     required: true
   },
-  region: {
-    type: String,
-    required: true
+  vegetarian: {
+    type: Boolean
   }
 })
 
-module.exports = model('recetas', recetasSchema)
+module.exports = model('Recipes', recipesSchema)

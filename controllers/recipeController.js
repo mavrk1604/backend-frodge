@@ -2,26 +2,26 @@ const { products } = require('../middlewares/validationBody')
 const Recipe = require('./../models/Recipe')
 
 const createRecipe = async (req, res) => {
-  const { recipename, description, ingredients, allergens, preparation, category, region } = req.body
+  const { name, imageurl, ingredients, allergens, preparation, category, vegetarian } = req.body
   try {
-    const recipe = await Recipe.findOne({ recipename: recipename })
+    const recipe = await Recipe.findOne({ name: name })
     if (recipe) return res.status(400).json({
       ok: false,
-      msg: `${recipe.recipename} ya existe en la base de datos!`
+      msg: `${recipe.name} ya existe en la base de datos!`
     })
     const dbRecipe = new Recipe ({
-      recipename: recipename,
-      description: description,
+      name: name,
+      imageurl: imageurl,
       ingredients: ingredients,
       allergens: allergens,
       preparation: preparation,
       category: category,
-      region: region
+      vegetarian: vegetarian
     })
     await dbRecipe.save()
     return res.status(201).json({
       ok: true,
-      msg: `La receta ${dbRecipe.recipename} ha sido creada en la base de datos`
+      msg: `La receta ${dbRecipe.name} ha sido creada en la base de datos`
     })
   } catch (error) {
     console.log(error)
@@ -99,4 +99,4 @@ const findRecipes = async (req, res) => {
 
 
 
-module.exports = {createRecipe, deleteRecipeById, updateRecipeById, findRecipes }
+module.exports = { createRecipe, deleteRecipeById, updateRecipeById, findRecipes }
