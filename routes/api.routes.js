@@ -6,4 +6,4 @@ const recipe = require('./recipe.routes');
 
 router.use('/api', user)
 router.use('/api', product)
-router.use('/api', recipe)
+router.use('/api', recipe)
