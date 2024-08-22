@@ -74,27 +74,6 @@ const updateRecipeById = async (req, res) => {
   }
 }
 
-// const findRecipes = async(req, res) => {
-//   try {
-//     const names = req.body.names
-//     console.log(names)
-//     const recipes = await Recipe.find({ ingredients: { $in: names } })
-//     if(!recipes) {
-//       return res.status(400).json({
-//         ok: false,
-//         msg: 'No se encontraron recetas con estos productos'
-//       })
-//     }
-//     return res.status(200).json({
-//       ok: true,
-//       msg: "lkjasnfdlsadknfsdlknfldkfjldskvlsdkjnvkjsñdanflksndvkjsdfnsdjvnkjwavnjkacnsdlkjvnsdlkjcvndfkjnvdsñkj"
-//     })
-//   }
-//   catch(error){
-//     console.log(error)
-//   }
-// }
-
 const findRecipes = async (req, res) => {
   try {
     const ingredients = req.body.ingredients
