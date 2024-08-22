@@ -1,3 +1,4 @@
+const { products } = require('../middlewares/validationBody')
 const Recipe = require('./../models/Recipe')
 
 const createRecipe = async (req, res) => {
@@ -96,35 +97,23 @@ const updateRecipeById = async (req, res) => {
 
 const findRecipes = async (req, res) => {
   try {
-      const { ingredientes } = req.body; // Array de ingredientes
-      
-      // Verificamos que se hayan enviado ingredientes
-      if (!ingredientes || !ingredientes.length) {
-          return res.status(400).json({ 
-            ok: true,
-            message: 'Se requiere un array de ingredientes.' 
-          })
-      }
+    const ingredients = req.body.ingredients
+    console.log(ingredients)
+    const recipes = await Recipe.find({ ingredients: { $all: ingredients } });
 
-      // Buscamos productos que contengan todos los ingredientes especificados
-      const products = await Product.find({ 
-          ingredientes: { $all: ingredientes }
-      });
-
-      if (products.length === 0) {
-          return res.status(404).json({
-            ok: false, 
-            msg: 'No se encontraron productos con los ingredientes especificados.' 
-          });
-      }
-
-      return res.json(products);
-  } catch (error) {
-      console.error(error);
-      return res.status(500).json({ 
+    console.log(recipes)
+    if(recipes.length===0) {
+      return res.status(400).json({
         ok: false,
-        message: 'Error en el servidor.' 
-      });
+        msg: 'No se encontraron recetas relacionadas'
+      })
+    }
+    res.status(200).json(recipes)
+  } catch (error) {
+    res.status(500).json({
+      ok: false,
+      msg: 'Error al buscar receta'
+    })
   }
 };
 
