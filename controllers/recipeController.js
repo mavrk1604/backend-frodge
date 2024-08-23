@@ -1,18 +1,21 @@
-const { products } = require('../middlewares/validationBody')
 const Recipe = require('./../models/Recipe')
 
 const createRecipe = async (req, res) => {
-  const { name, imageurl, ingredients, allergens, preparation, category, vegetarian } = req.body
+  const { name, imageurl, ingredients, allergens, preparation, category, vegetarian  } = req.body
   try {
     const recipe = await Recipe.findOne({ name: name })
     if (recipe) return res.status(400).json({
       ok: false,
       msg: `${recipe.name} ya existe en la base de datos!`
     })
+    const lowerItemsArray = []
+    ingredients.forEach(ingredient => {
+      lowerItemsArray.push(ingredient.toLowerCase())
+    });
     const dbRecipe = new Recipe ({
       name: name,
       imageurl: imageurl,
-      ingredients: ingredients,
+      ingredients: lowerItemsArray,
       allergens: allergens,
       preparation: preparation,
       category: category,
@@ -44,13 +47,13 @@ const deleteRecipeById = async (req, res) => {
     }
     return res.status(200).json({
       ok: true,
-      msg: 'Producto eliminado correctamente'
+      msg: 'Receta eliminada correctamente'
     })
   } catch (error) {
     console.log(error)
     return res.status(500).json({
       ok: false,
-      msg: 'Ocurrió un eror'
+      msg: 'Error, por favor contacte a soporte'
     })
   }
 }
@@ -58,6 +61,10 @@ const deleteRecipeById = async (req, res) => {
 const updateRecipeById = async (req, res) => {
   const id = req.params.id
   const data = req.body
+  // const lowerItemsArray = []
+  //   ingredients.forEach(ingredient => {
+  //     lowerItemsArray.(ingredient.toLowerCase())
+  //   });
   try {
     const updateRecipe = await Recipe.findOneAndUpdate({_id: id}, data, {new: true})
     return res.status(200).json ({
@@ -74,11 +81,14 @@ const updateRecipeById = async (req, res) => {
   }
 }
 
-const findRecipes = async (req, res) => {
+const findRecipesByIngredients = async (req, res) => {
   try {
     const ingredients = req.body.ingredients
-    console.log(ingredients)
-    const recipes = await Recipe.find({ ingredients: { $all: ingredients } });
+    const lowerItemsArray = []
+    ingredients.forEach(ingredient => {
+      lowerItemsArray.push(ingredient.toLowerCase())
+    });
+    const recipes = await Recipe.find({ ingredients: { $all: lowerItemsArray } });
 
     console.log(recipes)
     if(recipes.length===0) {
@@ -99,4 +109,4 @@ const findRecipes = async (req, res) => {
 
 
 
-module.exports = { createRecipe, deleteRecipeById, updateRecipeById, findRecipes }
+module.exports = { createRecipe, deleteRecipeById, updateRecipeById, findRecipesByIngredients }

@@ -9,7 +9,6 @@ const products = [
   body('name', 'El nombre del producto es requerido!').notEmpty(),
   body('type', 'El tipo del producto es requerido!').notEmpty(),
   body('description', 'La descripcion del producto es requerida!').notEmpty(),
-  body('price', 'El precio del producto es requerido!').notEmpty(),
 ]
 
 const recipes = [

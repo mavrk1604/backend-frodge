@@ -3,7 +3,7 @@ const Product = require('./../models/Product')
 
 
 const createProduct = async (req, res) => {
-  const { name, type, description, fridge, freeze, oven, stove, price, vegetarian } = req.body
+  const { name, type, description, conservation, vegetarian } = req.body
   try {
     console.log(req.body)
     const product = await Product.findOne({ name: name })
@@ -15,17 +15,13 @@ const createProduct = async (req, res) => {
       name: name,
       type: type,
       description: description,
-      fridge: fridge,
-      freeze: freeze,
-      oven: oven,
-      stove: stove,
-      price: price,
+      conservation: conservation,
       vegetarian: vegetarian
     })
     await dbProduct.save()
     return res.status(201).json({
       ok: true,
-      msg: `El producto "${dbProduct.name}" ha sido creado en base de datos!`
+      msg: `El producto ${dbProduct.name} ha sido creado en base de datos!`
     })
   } catch (error) {
     console.log(error)
@@ -42,12 +38,12 @@ const deleteProductById = async (req, res) => {
     const product = await Product.findByIdAndDelete(id)
     if (!product) return res.status(400).json({
       ok: false,
-      msg: `no se encontró en la base de datos!`
+      msg: 'No se encontró en la base de datos!'
     })
 
     return res.status(200).json({
       ok: true,
-      msg: `ha sido eliminado!`
+      msg: `${product.name} ha sido eliminado!`
     })
   } catch (error) {
     console.log(error)
