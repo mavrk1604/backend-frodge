@@ -1,3 +1,4 @@
+const { recipes } = require('../middlewares/validationBody')
 const Recipe = require('./../models/Recipe')
 
 const createRecipe = async (req, res) => {
@@ -12,6 +13,7 @@ const createRecipe = async (req, res) => {
     ingredients.forEach(ingredient => {
       lowerItemsArray.push(ingredient.toLowerCase())
     });
+    const lowerName = name.toLowerCase()
     const dbRecipe = new Recipe ({
       name: name,
       imageurl: imageurl,
@@ -61,10 +63,6 @@ const deleteRecipeById = async (req, res) => {
 const updateRecipeById = async (req, res) => {
   const id = req.params.id
   const data = req.body
-  // const lowerItemsArray = []
-  //   ingredients.forEach(ingredient => {
-  //     lowerItemsArray.(ingredient.toLowerCase())
-  //   });
   try {
     const updateRecipe = await Recipe.findOneAndUpdate({_id: id}, data, {new: true})
     return res.status(200).json ({
@@ -103,10 +101,34 @@ const findRecipesByIngredients = async (req, res) => {
       ok: false,
       msg: 'Error al buscar receta'
     })
-  }
+  } 
 };
 
+const findRecipeByName = async (req, res) => {
+  try {
+    const name = req.body.name
+    const lowerName = name.toLowerCase()
+    console.log(lowerName)
+    const recipes = await Recipe.findOne({ name: lowerName });
+    console.log(recipes)
+    if(!recipes){
+      return res.status(400).json({
+        ok: false,
+        msg: 'Receta no encontrada'
+      })
+    }
+      return res.status(200).json(recipes)
+    }catch (error) {
+      console.log(error)
+      return res.status(500).json({
+        ok: false,
+        msg: 'Por favor contacte a soporte'
+      })
+  }
+}
 
 
 
-module.exports = { createRecipe, deleteRecipeById, updateRecipeById, findRecipesByIngredients }
+
+
+module.exports = { createRecipe, deleteRecipeById, updateRecipeById, findRecipesByIngredients, findRecipeByName }
