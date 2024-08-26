@@ -19,6 +19,9 @@ const productsSchema = Schema({
   },
   vegetarian: {
     type: Boolean,
+  },
+  perishable: {
+    type: Boolean
   }
 
 })

@@ -3,7 +3,7 @@ const Product = require('./../models/Product')
 
 
 const createProduct = async (req, res) => {
-  const { name, type, description, conservation, vegetarian } = req.body
+  const { name, type, description, conservation, vegetarian, perishable } = req.body
   try {
     console.log(req.body)
     const product = await Product.findOne({ name: name })
@@ -16,7 +16,8 @@ const createProduct = async (req, res) => {
       type: type,
       description: description,
       conservation: conservation,
-      vegetarian: vegetarian
+      vegetarian: vegetarian,
+      perishable: perishable
     })
     await dbProduct.save()
     return res.status(201).json({
