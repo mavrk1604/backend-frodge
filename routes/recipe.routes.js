@@ -7,7 +7,7 @@ const validateFields = require('../middlewares/validationResult')
 router.post('/create-recipe', recipes, validateFields, createRecipe)
 router.delete('/delete/:id', deleteRecipeById)
 router.patch('/update-recipe/:id', updateRecipeById)
-router.get('/find-recipe', findRecipesByIngredients)
+router.get('/find-recipe-by-ingredients', findRecipesByIngredients)
 router.get('/find-recipe-by-name', findRecipeByName)
 
 module.exports = router
