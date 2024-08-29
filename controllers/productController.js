@@ -75,8 +75,36 @@ const updateProductById = async (req, res) => {
   }
 }
 
+const getAllProducts = async (req, res) => {
+  try {
+    // Fetch all products from the collection
+    const products = await Product.find()
+
+    // Check if products were found
+    if (!products || products.length === 0) {
+      return res.status(404).json({
+        ok: false,
+        msg: 'No products found in the database!'
+      })
+    }
+
+    // Return the list of products
+    return res.status(200).json({
+      ok: true,
+      products
+    })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      ok: false,
+      msg: 'Server error, please contact support.'
+    })
+  }
+}
+
 module.exports = {
   createProduct, 
   deleteProductById,
-  updateProductById
+  updateProductById,
+  getAllProducts
 }
