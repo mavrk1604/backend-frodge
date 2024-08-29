@@ -13,6 +13,12 @@ const userSchema = Schema({
   isadmin: {
     type: Boolean,
     default: false
+  },
+  ingredients: {
+    type: Array
+  },
+  recipes: {
+    type: Array
   }
 })
 
