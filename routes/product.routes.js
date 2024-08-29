@@ -5,9 +5,9 @@ const { products } = require('../middlewares/validationBody')
 const validateFields = require('../middlewares/validationResult')
 
 router.post('/create-product', products, validateFields, createProduct)
-router.get('/get-all-products',getAllProducts)
 router.delete('/delete-product-by-id/:id', deleteProductById)
 router.patch('/update-product/:id', updateProductById)
 router.get('/find-product-by-name', findProductByName)
+router.get('/get-all-products',getAllProducts)
 
 module.exports = router
