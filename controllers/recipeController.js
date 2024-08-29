@@ -3,6 +3,7 @@ const Recipe = require('./../models/Recipe')
 
 const createRecipe = async (req, res) => {
   const { name, imageurl, ingredients, allergens, preparation, category, vegetarian  } = req.body
+  console.log(imageurl)
   try {
     const recipe = await Recipe.findOne({ name: name })
     if (recipe) return res.status(400).json({
@@ -131,4 +132,10 @@ const findRecipeByName = async (req, res) => {
 
 
 
-module.exports = { createRecipe, deleteRecipeById, updateRecipeById, findRecipesByIngredients, findRecipeByName }
+module.exports = { 
+  createRecipe, 
+  deleteRecipeById,
+  updateRecipeById, 
+  findRecipesByIngredients, 
+  findRecipeByName 
+}

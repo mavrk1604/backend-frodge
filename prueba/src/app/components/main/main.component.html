@@ -1,0 +1,18 @@
+<div>
+  <p>
+    Nombre: {{ nombre }}
+  </p>
+  <p>
+    Edad: {{ edad }}
+  </p>
+  <p>
+    Ultimos 3 sueldos son: {{ sueldos [0] }}, {{ sueldos [1] }}, {{ sueldos [2] }}
+  </p>
+  <p>
+    En los ultimos 3 meses ha ganado: {{ ultimosSueldos() }}
+  </p>
+  <p *ngIf="edad >= 18">Es mayor de edad</p>
+  <p *ngIf="edad < 18">Es menor de edad</p>
+  <p *ngIf="activo >= true">Está activo</p>
+  <p *ngIf="activo < false">No está activo</p>
+</div>
