@@ -3,7 +3,7 @@ const Product = require('./../models/Product')
 
 
 const createProduct = async (req, res) => {
-  const { name, type, description, conservation, vegetarian, perishable } = req.body
+  const { imageurl, name, type, description, conservation, vegetarian, perishable } = req.body
   try {
     console.log(req.body)
     const product = await Product.findOne({ name: name })
@@ -12,6 +12,7 @@ const createProduct = async (req, res) => {
       msg: `${product.name} ya existe en la base de datos!`
     })
     const dbProduct = new Product({
+      imageurl: imageurl,
       name: name,
       type: type,
       description: description,
