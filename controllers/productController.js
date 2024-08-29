@@ -1,7 +1,6 @@
 const Product = require('./../models/Product')
 
 
-
 const createProduct = async (req, res) => {
   const { name, type, description, conservation, vegetarian, perishable } = req.body
   try {
@@ -74,8 +73,32 @@ const updateProductById = async (req, res) => {
   }
 }
 
+  const findProductByName = async (req, res) => {
+    try {
+      const name = req.body.name
+      const lowerName = name.toLowerCase()
+      console.log(lowerName)
+      const products = await Product.findOne({ name: lowerName });
+      console.log(products)
+      if(!products){
+        return res.status(400).json({
+          ok: false,
+          msg: 'Producto no encontradO'
+        })
+      }
+        return res.status(200).json(products)
+      }catch (error) {
+        console.log(error)
+        return res.status(500).json({
+          ok: false,
+          msg: 'Por favor contacte a soporte'
+        })
+      }
+  }
+
 module.exports = {
   createProduct, 
   deleteProductById,
-  updateProductById
+  updateProductById,
+  findProductByName
 }
