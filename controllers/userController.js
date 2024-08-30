@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 const { generateToken } = require('./../middlewares/jwtGenerate')
 
 const createUser = async (req, res) => {
-  const { email, password } = req.body
+  const { email, password,ingredient } = req.body
   try {
     const user = await User.findOne({ email: email })
     if (user) return res.status(400).json({
@@ -44,11 +44,13 @@ const userLogIn = async (req, res) => {
       msg: `Password incorrect.`
     })
     const token = await generateToken(dbUser._id, dbUser.email)
+    const id = dbUser._id
 
     return res.status(200).json({
       ok: true,
       msg: `${dbUser.email} Bienvenido a Frodge!`,
-      token: token
+      token: token,
+      id: id
     })
   } catch(error) {
     console.log(error)
@@ -59,7 +61,63 @@ const userLogIn = async (req, res) => {
   }
 }
 
+const addIngredientById = async (req, res) => {
+  const productName = req.body.name
+  const id = req.params.id
+  try {
+    const user = await User.findById(id)
+    if (!user) {
+      return res.status(404).json({
+        ok: false,
+        msg:'El Usuario no existe en base de datos!'
+      })
+    }
+    user.ingredients.push(productName)
+    await user.save()
+    return res.status(200).json({
+      ok: true,
+      msg: `${productName} agregado a la Despensa!`
+    })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      ok: false,
+      msg: 'Error del servidor, contactar a soporte.'
+    })
+  }
+}
+
+const deleteIngredientById = async (req, res) => {
+  const productName = req.body.name
+  const id = req.params.id
+  try {
+    const user = await User.findById(id)
+    if (!user) {
+      return res.status(404).json({
+        ok: false,
+        msg: 'El Usuario no existe en base de datos!'
+      })
+    }
+    const resultado = user.ingredients.filter(ingredient => ingredient != `${productName}`)
+    user.ingredients = resultado
+    await user.save()
+    return res.status(200).json({
+      ok: true,
+      msg: `${productName} eliminado de la Despensa!`
+    })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      ok: false,
+      msg: 'Error del servidor, contactar a soporte.'
+    })
+  }
+}
+
+
 module.exports = {
   createUser,
-  userLogIn
+  userLogIn,
+  addIngredientById,
+  deleteIngredientById
 }
