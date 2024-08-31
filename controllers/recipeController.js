@@ -2,8 +2,8 @@ const { recipes } = require('../middlewares/validationBody')
 const Recipe = require('./../models/Recipe')
 
 const createRecipe = async (req, res) => {
-  const { name, imageurl, ingredients, allergens, preparation, category, vegetarian  } = req.body
-  console.log(imageurl)
+  const { name, imageurl, ingredients,  allergens, preparation, category, vegetarian  }  = req.body
+  console.log(ingredients)
   try {
     const recipe = await Recipe.findOne({ name: name })
     if (recipe) return res.status(400).json({
@@ -14,8 +14,8 @@ const createRecipe = async (req, res) => {
     ingredients.forEach(ingredient => {
       lowerItemsArray.push(ingredient.toLowerCase())
     });
-    const lowerName = name.toLowerCase()
-    const dbRecipe = new Recipe ({
+
+    const Recipe = new Recipe ({
       name: name,
       imageurl: imageurl,
       ingredients: lowerItemsArray,
@@ -24,10 +24,10 @@ const createRecipe = async (req, res) => {
       category: category,
       vegetarian: vegetarian
     })
-    await dbRecipe.save()
+    await Recipe.save()
     return res.status(201).json({
       ok: true,
-      msg: `La receta ${dbRecipe.name} ha sido creada en la base de datos`
+      msg: `La receta ${Recipe.name} ha sido creada en la base de datos`
     })
   } catch (error) {
     console.log(error)
