@@ -30,4 +30,4 @@ const recipesSchema = Schema({
   }
 })
 
-module.exports = model('Recipes', recipesSchema)
+module.exports = model('Recipe', recipesSchema)

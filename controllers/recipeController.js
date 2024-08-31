@@ -2,41 +2,86 @@ const { recipes } = require('../middlewares/validationBody')
 const Recipe = require('./../models/Recipe')
 
 const createRecipe = async (req, res) => {
-  const { name, imageurl, ingredients,  allergens, preparation, category, vegetarian  }  = req.body
-  console.log(ingredients)
+  const { name, imageurl, ingredients, allergens, preparation, category, vegetarian } = req.body;
+  console.log(ingredients);
+
   try {
-    const recipe = await Recipe.findOne({ name: name })
-    if (recipe) return res.status(400).json({
-      ok: false,
-      msg: `${recipe.name} ya existe en la base de datos!`
-    })
-    const lowerItemsArray = []
-    ingredients.forEach(ingredient => {
-      lowerItemsArray.push(ingredient.toLowerCase())
+    // Verifica si la receta ya existe
+    const existingRecipe = await Recipe.findOne({ name });
+    if (existingRecipe) {
+      return res.status(400).json({
+        ok: false,
+        msg: `${existingRecipe.name} ya existe en la base de datos!`
+      });
+    }
+
+    // Convierte los ingredientes a minúsculas
+    const lowerItemsArray = ingredients.map(ingredient => ingredient.toLowerCase());
+
+    // Crea una nueva instancia de la receta
+    const newRecipe = new Recipe({
+      name,
+      imageurl,
+      ingredients: lowerItemsArray,
+      allergens,
+      preparation,
+      category,
+      vegetarian
     });
 
-    const Recipe = new Recipe ({
-      name: name,
-      imageurl: imageurl,
-      ingredients: lowerItemsArray,
-      allergens: allergens,
-      preparation: preparation,
-      category: category,
-      vegetarian: vegetarian
-    })
-    await Recipe.save()
+    // Guarda la nueva receta en la base de datos
+    await newRecipe.save();
+
     return res.status(201).json({
       ok: true,
-      msg: `La receta ${Recipe.name} ha sido creada en la base de datos`
-    })
+      msg: `La receta "${newRecipe.name}" ha sido creada en la base de datos`
+    });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).json({
       ok: false,
       msg: 'Error del servidor, por favor contactar a soporte.'
-    })
+    });
   }
-}
+};
+
+
+// const createRecipe = async (req, res) => {
+//   const { name, imageurl, ingredients,  allergens, preparation, category, vegetarian  }  = req.body
+//   console.log(ingredients)
+//   try {
+//     const recipe = await Recipe.findOne({ name: name })
+//     if (recipe) return res.status(400).json({
+//       ok: false,
+//       msg: `${recipe.name} ya existe en la base de datos!`
+//     })
+//     const lowerItemsArray = []
+//     ingredients.map(ingredient => {
+//       lowerItemsArray.push(ingredient.toLowerCase())
+//     });
+
+//     const Recipe = new Recipe ({
+//       name: name,
+//       imageurl: imageurl,
+//       ingredients: lowerItemsArray,
+//       allergens: allergens,
+//       preparation: preparation,
+//       category: category,
+//       vegetarian: vegetarian
+//     })
+//     await Recipe.save()
+//     return res.status(201).json({
+//       ok: true,
+//       msg: `La receta ${Recipe.name} ha sido creada en la base de datos`
+//     })
+//   } catch (error) {
+//     console.log(error)
+//     return res.status(500).json({
+//       ok: false,
+//       msg: 'Error del servidor, por favor contactar a soporte.'
+//     })
+//   }
+// }
 
 const deleteRecipeById = async (req, res) => {
   const id = req.params.id
