@@ -114,10 +114,34 @@ const deleteIngredientById = async (req, res) => {
   }
 }
 
+const getUserById = async (req, res) => {
+  try {
+    const id = req.params.id
+    console.log(id)
+    const user = await User.findOne({ _id: id }).select('-password');
+    console.log(user)
+    if (!user) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'Usuario no encontrado'
+      })
+    }
+    return res.status(200).json(user)
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      ok: false,
+      msg: 'Por favor contacte a soporte'
+    })
+  }
+}
+
+
 
 module.exports = {
   createUser,
   userLogIn,
   addIngredientById,
-  deleteIngredientById
+  deleteIngredientById,
+  getUserById
 }
