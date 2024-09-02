@@ -170,6 +170,30 @@ const findRecipeByName = async (req, res) => {
         ok: false,
         msg: 'Por favor contacte a soporte'
       })
+  }  
+}
+
+const getAllRecipes = async (req, res) => {
+  try {
+    const recipes = await Recipe.find()
+
+    if (!recipes || recipes.length === 0) {
+      return res.status(404).json({
+        ok: false,
+        msg: 'No products found in the database!'
+      })
+    }
+
+    return res.status(200).json({
+      ok: true,
+      recipes
+    })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      ok: false,
+      msg: 'Server error, please contact support.'
+    })
   }
 }
 
@@ -182,5 +206,6 @@ module.exports = {
   deleteRecipeById,
   updateRecipeById, 
   findRecipesByIngredients, 
-  findRecipeByName 
+  findRecipeByName,
+  getAllRecipes
 }
