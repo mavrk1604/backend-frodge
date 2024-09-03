@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 const { generateToken } = require('./../middlewares/jwtGenerate')
 
 const createUser = async (req, res) => {
-  const { email, password,ingredient } = req.body
+  const { email, password, } = req.body
   try {
     const user = await User.findOne({ email: email })
     if (user) return res.status(400).json({
