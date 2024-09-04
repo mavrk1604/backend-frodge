@@ -186,7 +186,9 @@ const getRecipeByIngredientName = async (req, res) => {
         msg: 'Receta no encontrada'
       })
     }
-    return res.status(200).json(recipes)
+    return res.status(200).json({
+      recipes: recipes
+    })
   } catch (error) {
     console.log(error)
     return res.status(500).json({
