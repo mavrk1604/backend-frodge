@@ -173,6 +173,29 @@ const findRecipeByName = async (req, res) => {
   }  
 }
 
+const getRecipeByIngredientName = async (req, res) => {
+  try {
+    const name = req.params.name
+    const lowerName = name.toLowerCase()
+    console.log(lowerName)
+    const recipes = await Recipe.find({ ingredients: lowerName });
+    console.log(recipes)
+    if (!recipes) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'Receta no encontrada'
+      })
+    }
+    return res.status(200).json(recipes)
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      ok: false,
+      msg: 'Por favor contacte a soporte'
+    })
+  }
+}
+
 const getAllRecipes = async (req, res) => {
   try {
     const recipes = await Recipe.find()
@@ -207,5 +230,6 @@ module.exports = {
   updateRecipeById, 
   findRecipesByIngredients, 
   findRecipeByName,
-  getAllRecipes
+  getAllRecipes,
+  getRecipeByIngredientName
 }
