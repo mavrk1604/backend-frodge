@@ -68,4 +68,47 @@ describe('User Controller Testing', () => {
       expect(response.body).toHaveProperty('ok', false)
       expect(response.body.msg.password).toHaveProperty('msg', "Password must contain uppercase, lowercase, numbers and special characters.")
     })
+  
+  it('Deberia loguear a un usuario con credenciales correctas.',
+    async () => {
+      const password = 'Test1234!'
+      const hashedPassword = bcrypt.hashSync(password, 10)
+      const user = await new User({
+        email: 'test@test.com',
+        password: hashedPassword
+      })
+      user.save()
+
+      const response = await request(app).post('/api/login').send({ email: user.email, password: password })
+      expect(response.statusCode).toBe(200)
+      expect(response.body).toHaveProperty('msg', `${user.email} Bienvenido a Frodge!`)
+      expect(response.body).toHaveProperty('token')
+    })
+  
+  it('El usuario no debe poder loguearse si su password es incorrecto', 
+    async () => {
+      const password = 'Test1234!'
+      const hashedPassword = bcrypt.hashSync(password, 10)
+      const user = await new User({
+        email: 'test@test.com',
+        password: hashedPassword
+      })
+      user.save()
+      const response = await request(app).post('/api/login').send({ email: user.email, password: 'incorrecta' })
+      
+      expect(response.statusCode).toBe(400)
+      expect(response.body).toHaveProperty('msg', 'Password incorrect.')
+      expect(response.body).toHaveProperty('ok', false)
+    })
+  
+  it('Deberia retornar un error de servidor al hacer el login.', 
+    async() => {
+      jest.spyOn(User, 'findOne').mockImplementationOnce(() => {
+        throw new Error('Simulando error en DB')
+      })
+
+      const response = await request(app).post('/api/login').send({ email: 'test@test.com', password: 'Test1234!' })
+
+      expect(response.statusCode).toBe(500)
+    })
 })
