@@ -19,6 +19,8 @@ app.get('/*', (req,res, next) => {
 })
 app.use('/', api)
 
-app.listen(8080, () => {
-  console.log(`Servidor conectado en el puerto ${port}!`)
-})
+// app.listen(8080, () => {
+//   console.log(`Servidor conectado en el puerto ${port}!`)
+// })
+
+module.exports = app

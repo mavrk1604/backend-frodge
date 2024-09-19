@@ -2,7 +2,7 @@ const { body } = require('express-validator')
 const users = [
   body('email', 'Email field is required.').notEmpty(),
   body('email', 'Email address not valid.').normalizeEmail().isEmail(),
-  body('password', 'Password must contain uppercase, lowercase, numbers and special characters').isStrongPassword()
+  body('password', 'Password must contain uppercase, lowercase, numbers and special characters.').isStrongPassword()
 ]
 
 const products = [
