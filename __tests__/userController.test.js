@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt')
 const User = require('./../models/User')
 
 describe('User Controller Testing', () => {
+  const testEmail = 'test@test.com'
+  const testPassword = 'Test1234!'
   beforeEach(async() => {
     await User.deleteMany({})
     console.log('BeforeEach Ejecutado')
@@ -59,16 +61,7 @@ describe('User Controller Testing', () => {
       expect(response.body).toHaveProperty('ok', false)
       expect(response.body.msg.email).toHaveProperty('msg', "Email address not valid.")
     })
-  
-  it('No deberia registar un usuario si la contrasena no es fuerte.',
-    async () => {
-      const response = await request(app).post('/api/register').send({ email: 'test@test.com', password: 'password' })
-
-      expect(response.statusCode).toBe(400)
-      expect(response.body).toHaveProperty('ok', false)
-      expect(response.body.msg.password).toHaveProperty('msg', "Password must contain uppercase, lowercase, numbers and special characters.")
-    })
-  
+    
   it('Deberia loguear a un usuario con credenciales correctas.',
     async () => {
       const password = 'Test1234!'
@@ -110,5 +103,16 @@ describe('User Controller Testing', () => {
       const response = await request(app).post('/api/login').send({ email: 'test@test.com', password: 'Test1234!' })
 
       expect(response.statusCode).toBe(500)
+    })
+  
+  it('No deberia crear un usuario si la contraseña no es fuerte',
+    async () => {
+      const response = await request(app)
+        .post('/api/register')
+        .send({ email: 'test@test.com', password: 'C' })
+      
+      expect(response.body.msg.password).toHaveProperty('msg', "Password must contain uppercase, lowercase, numbers and special characters.")
+      expect(response.body).toHaveProperty('ok', false)
+      expect(response.statusCode).toBe(400)
     })
 })

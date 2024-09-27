@@ -13,10 +13,10 @@ databaseConnect()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cors())
-app.use('/', express.static(__dirname + '/dist/frontend-frodge/browser'))
-app.get('/*', (req,res, next) => {
-  res.sendFile(path.resolve(__dirname + '/dist/frontend-frodge/browser/index.html'))
-})
+// app.use('/', express.static(__dirname + '/dist/frontend-frodge/browser'))
+// app.get('/*', (req,res, next) => {
+//   res.sendFile(path.resolve(__dirname + '/dist/frontend-frodge/browser/index.html'))
+// })
 app.use('/', api)
 
 // app.listen(8080, () => {
