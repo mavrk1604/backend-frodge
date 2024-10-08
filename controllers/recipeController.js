@@ -45,44 +45,6 @@ const createRecipe = async (req, res) => {
   }
 };
 
-
-// const createRecipe = async (req, res) => {
-//   const { name, imageurl, ingredients,  allergens, preparation, category, vegetarian  }  = req.body
-//   console.log(ingredients)
-//   try {
-//     const recipe = await Recipe.findOne({ name: name })
-//     if (recipe) return res.status(400).json({
-//       ok: false,
-//       msg: `${recipe.name} ya existe en la base de datos!`
-//     })
-//     const lowerItemsArray = []
-//     ingredients.map(ingredient => {
-//       lowerItemsArray.push(ingredient.toLowerCase())
-//     });
-
-//     const Recipe = new Recipe ({
-//       name: name,
-//       imageurl: imageurl,
-//       ingredients: lowerItemsArray,
-//       allergens: allergens,
-//       preparation: preparation,
-//       category: category,
-//       vegetarian: vegetarian
-//     })
-//     await Recipe.save()
-//     return res.status(201).json({
-//       ok: true,
-//       msg: `La receta ${Recipe.name} ha sido creada en la base de datos`
-//     })
-//   } catch (error) {
-//     console.log(error)
-//     return res.status(500).json({
-//       ok: false,
-//       msg: 'Error del servidor, por favor contactar a soporte.'
-//     })
-//   }
-// }
-
 const deleteRecipeById = async (req, res) => {
   const id = req.params.id
   try {
@@ -153,10 +115,7 @@ const findRecipesByIngredients = async (req, res) => {
 const findRecipeByName = async (req, res) => {
   try {
     const name = req.body.name
-    const lowerName = name.toLowerCase()
-    console.log(lowerName)
-    const recipes = await Recipe.findOne({ name: lowerName });
-    console.log(recipes)
+    const recipes = await Recipe.findOne({ name: name });
     if(!recipes){
       return res.status(400).json({
         ok: false,

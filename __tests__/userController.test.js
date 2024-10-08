@@ -9,7 +9,6 @@ describe('User Controller Testing', () => {
   const testPassword = 'Test1234!'
   beforeEach(async() => {
     await User.deleteMany({})
-    console.log('BeforeEach Ejecutado')
   }, 10000)
 
   afterAll(async () => {
@@ -24,7 +23,6 @@ describe('User Controller Testing', () => {
     const response = await request(app)
       .post('/api/register')
       .send({ email: email, password: 'Test1234!' })
-    // console.log('Supertest ya finalizo, la espuesta es', response)
     
     expect(response.statusCode).toBe(201)
     expect(response.body).toHaveProperty('msg', `${ email } has been registered successfully!`)
@@ -70,7 +68,7 @@ describe('User Controller Testing', () => {
         email: 'test@test.com',
         password: hashedPassword
       })
-      user.save()
+      await user.save()
 
       const response = await request(app).post('/api/login').send({ email: user.email, password: password })
       expect(response.statusCode).toBe(200)
@@ -86,7 +84,7 @@ describe('User Controller Testing', () => {
         email: 'test@test.com',
         password: hashedPassword
       })
-      user.save()
+      await user.save()
       const response = await request(app).post('/api/login').send({ email: user.email, password: 'incorrecta' })
       
       expect(response.statusCode).toBe(400)
