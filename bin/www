@@ -1,14 +1,18 @@
-const app = require('./../index')  
-const http = require('http')
-const port = process.env.PORT
+const app = require('./../index');
+const http = require('http');
+const cors = require('cors');
+const port = process.env.PORT;
 
-app.set('port', port)
+app.use(cors());
+app.set('port', port);
 
-const server = http.createServer(app)
-server.listen(port, '0.0.0.0')
+const server = http.createServer(app);
+server.listen(port, '0.0.0.0');
+
 server.on('error', () => {
-  console.log(`Error Conectando el Servidor en el puerto ${port}`)
-})
+  console.log(`Error Conectando el Servidor en el puerto ${port}`);
+});
+
 server.on('listening', () => {
-  console.log(`Servidor conectado en el puerto ${port}!`)
-})
+  console.log(`Servidor conectado en el puerto ${port}!`);
+});
