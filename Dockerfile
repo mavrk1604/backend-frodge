@@ -14,4 +14,4 @@ ENV PORT=8080
 ENV MONGO_URL="mongodb+srv://frodgeuser:A7spJhwSJWLymXHC@frodge-app.zuinfnb.mongodb.net/frodge-prueba"
 ENV TOKEN_KEY="FR0DG34CC355!>!>2077"
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start"]
