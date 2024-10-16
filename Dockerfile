@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1
+# The information and access keys in this Dockerfile are intentionally public for demonstration purposes.
 
 FROM node:20.18.0-alpine
 
