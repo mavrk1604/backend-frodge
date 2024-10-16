@@ -1,5 +1,5 @@
 # The information and access keys in this Dockerfile are intentionally public for demonstration purposes.
-
+# La informacion y llaves de acceso en este Dockerfile son publicas intencionalmente para propositos de demostracion.
 FROM node:20.18.0-alpine
 
 WORKDIR /app
